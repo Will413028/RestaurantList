@@ -62,11 +62,16 @@ app.post('/restaurants', (req, res) => {
 })
 
 
-//show page
-app.get('/restaurants/:restaurant_id', (req, res) => {
-    const restaurant = restaurantList.results.find(restaurant => restaurant.id.toString() === req.params.restaurant_id)
-    res.render('show', {restaurant: restaurant})
+// show details
+app.get('/restaurants/:restaurantId', (req, res) => {
+    const id = req.params.restaurantId
+    Restaurant.findById(id)
+        .lean()
+        .then((restaurant) => res.render('detail', { restaurant }))
+        .catch(error => console.log(error))
 })
+
+
 
 // search function
 app.get('/search', (req, res) => {
