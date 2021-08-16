@@ -1,0 +1,59 @@
+<div class="container mt-3 p-3">
+    <h1 class="text-center">新增餐廳</h1>
+
+    <form action="/restaurants" method="POST">
+        <div class="form-group">
+            <label for="name">餐廳名稱*</label>
+            <input type="text" class="form-control" name="name" id="name" aria-describedby="name" placeholder="" value="{{name}}"
+                   required>
+        </div>
+        <div class="form-group">
+            <label for="name_en">餐廳英文名稱</label>
+            <input type="text" class="form-control" name="name_en" id="name_en" placeholder="" value="{{name_en}}">
+        </div>
+        <div class="form-group">
+            <label for="res_category">類別*</label>
+            <input type="list" list="category" class="form-control" name="category" id="res_category"
+                   placeholder="" value="{{category}}" required>
+            <datalist id="category">
+                <option>中東料理</option>
+                <option>義式餐廳</option>
+                <option>酒吧</option>
+                <option>日本料理</option>
+                <option>美式</option>
+                <option>咖啡</option>
+            </datalist>
+        </div>
+        <div class="form-group">
+            <label for="image">餐廳圖片網址</label>
+            <input type="text" class="form-control" name="image" id="image"
+                   placeholder="" value="{{image}}">
+        </div>
+        <div class="form-group">
+            <label for="location">餐廳地址*</label>
+            <input type="text" class="form-control" name="location" id="location" placeholder="" value="{{location}}" required>
+        </div>
+        <div class="form-group">
+            <label for="phone">餐廳電話*</label>
+            <input type="text" class="form-control" name="phone" id="phone" placeholder="" value="{{phone}}" inputmode="numeric"
+                   required>
+        </div>
+        <div class="form-group">
+            <label for="google_map">Google map網址</label>
+            <input type="text" class="form-control" name="google_map" id="google_map" placeholder="" value="{{google_map}}">
+        </div>
+        <div class="form-group">
+            <label for="rating">評比分數*</label>
+            <input type="number" class="form-control" name="rating" id="rating" max="5" min="1" step="0.1" placeholder="" value="{{rating}}"
+                   required>
+        </div>
+        <div class="form-group">
+            <label for="description">餐廳簡介</label>
+            <textarea class="form-control" name="description" id="description" rows="3" value="{{description}}"
+                      placeholder=""></textarea>
+        </div>
+
+        <button type="submit" class="btn btn-primary">新增</button>
+    </form>
+
+</div>
