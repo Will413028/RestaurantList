@@ -109,7 +109,14 @@ app.post('/restaurants/:restaurantId/edit', (req, res) => {
         .catch(error => console.log(error))
 })
 
-
+//delete a restaurant
+app.post('/restaurants/:restaurantId/delete', (req, res) =>{
+    const id = req.params.restaurantId
+    Restaurant.findById(id)
+        .then(restaurant => restaurant.remove())
+        .then(() =>res.redirect('/'))
+        .catch(error => console.log(error))
+})
 
 // search function
 app.get('/search', (req, res) => {
