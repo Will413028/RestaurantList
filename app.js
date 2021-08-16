@@ -24,3 +24,7 @@ app.listen(port, () => {
     console.log(`express is listening on localhost:${port}`)
 })
 
+app.get('/restaurants/:restaurant_id', (req, res) => {
+    const restaurant = restaurantList.results.find(restaurant=>restaurant.id.toString() === req.params.restaurant_id)
+    res.render('show', { restaurant: restaurant })
+})
