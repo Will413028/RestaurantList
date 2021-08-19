@@ -2,8 +2,12 @@ const express = require('express')
 const mongoose = require('mongoose')
 const exphbs = require('express-handlebars')
 const Restaurant = require('./models/restaurant')
+const methodOverride = require('method-override')
 const app = express()
 const port = 3000
+
+app.use(methodOverride('_method'))
+
 
 
 mongoose.connect('mongodb://localhost/restaurant-list', { useNewUrlParser: true, useUnifiedTopology: true })
@@ -80,17 +84,9 @@ app.get('/restaurants/:restaurantId/edit', (req, res) => {
         .catch(error => console.log(error))
 })
 
-app.post('/restaurants/:restaurantId/edit', (req, res) => {
+app.put('/restaurants/:restaurantId', (req, res) => {
     const id = req.params.restaurantId
-    const name = req.body.name
-    const name_en = req.body.name_en
-    const category = req.body.category
-    const image = req.body.image
-    const location = req.body.location
-    const phone = req.body.phone
-    const google_map = req.body.google_map
-    const rating = req.body.rating
-    const description = req.body.description
+    const { name, name_en, category, image, location, phone, google_map, rating, description } = req.body
 
     Restaurant.findById(id)
         .then(restaurant => {
@@ -110,7 +106,7 @@ app.post('/restaurants/:restaurantId/edit', (req, res) => {
 })
 
 //delete a restaurant
-app.post('/restaurants/:restaurantId/delete', (req, res) =>{
+app.delete('/restaurants/:restaurantId', (req, res) =>{
     const id = req.params.restaurantId
     Restaurant.findById(id)
         .then(restaurant => restaurant.remove())
