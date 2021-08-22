@@ -1,11 +1,9 @@
-// 引用 Express 與 Express 路由器
 const express = require('express')
+
 const router = express.Router()
-//  Restaurant model
+
 const Restaurant = require('../../models/restaurant')
 
-
-// create a new restaurant
 router.get('/new', (req, res) => {
     res.render('new')
 })
@@ -39,16 +37,16 @@ router.get('/:restaurantId', (req, res) => {
 })
 
 // edit data
-router.get('/:restaurantId/edit', (req, res) => {
-    const id = req.params.restaurantId
+router.get('/:id/edit', (req, res) => {
+    const id = req.params.id
     Restaurant.findById(id)
         .lean()
         .then((restaurant) => res.render('edit', { restaurant }))
         .catch(error => console.log(error))
 })
 
-router.put('/:restaurantId', (req, res) => {
-    const id = req.params.restaurantId
+router.put('/:id', (req, res) => {
+    const id = req.params.id
     const { name, name_en, category, image, location, phone, google_map, rating, description } = req.body
 
     Restaurant.findById(id)
@@ -69,12 +67,22 @@ router.put('/:restaurantId', (req, res) => {
 })
 
 //delete a restaurant
-router.delete('/:restaurantId', (req, res) =>{
-    const id = req.params.restaurantId
+router.delete('/:id', (req, res) =>{
+    const id = req.params.id
     Restaurant.findById(id)
         .then(restaurant => restaurant.remove())
         .then(() =>res.redirect('/'))
         .catch(error => console.log(error))
 })
+
+
+
+
+
+
+
+
+
+
 
 module.exports = router

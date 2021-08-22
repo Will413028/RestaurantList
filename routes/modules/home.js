@@ -1,19 +1,15 @@
-// 引用 Express 與 Express 路由器
 const express = require('express')
+
 const router = express.Router()
 
-
-
-//  Restaurant model
 const Restaurant = require('../../models/restaurant')
-
-//index page
-router.get('/', (req, res) => {
+router.get('/', (req,res) => {
     Restaurant.find()
         .lean()
         .then(restaurants => res.render('index', { restaurants }))
         .catch(error => console.log(error))
 })
+
 
 // search function
 router.get('/search', (req, res) => {
@@ -26,5 +22,41 @@ router.get('/search', (req, res) => {
         })
 })
 
-// 匯出路由模組
+// sort function
+router.get('/asc', (req,res) =>{
+    Restaurant.find()
+        .lean()
+        .sort({name_en:'asc'})
+        .then(restaurants => res.render('index', {restaurants}))
+        .catch(error => console.log(error))
+})
+
+
+router.get('/desc', (req,res) =>{
+    Restaurant.find()
+        .lean()
+        .sort({name_en:'desc'})
+        .then(restaurants => res.render('index', {restaurants}))
+        .catch(error => console.log(error))
+})
+
+
+router.get('/category', (req,res) =>{
+    Restaurant.find()
+        .lean()
+        .sort({category:'asc'})
+        .then(restaurants => res.render('index', {restaurants}))
+        .catch(error => console.log(error))
+})
+
+
+router.get('/location', (req,res) =>{
+    Restaurant.find()
+        .lean()
+        .sort({location:'asc'})
+        .then(restaurants => res.render('index', {restaurants}))
+        .catch(error => console.log(error))
+})
+
+
 module.exports = router

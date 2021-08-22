@@ -1,5 +1,5 @@
 <!-- search bar -->
-<div class="container search-bar">
+<div class="container search-bar d-flex justify-content-around">
     <div class="search-bar-outer">
         <div class="search-bar-inner">
             <form action="/search">
@@ -10,15 +10,26 @@
                     <div class="input-group-append">
                         <button class="btn btn-major" type="submit" id="search-button"><i class="fas fa-search"></i>
                         </button>
-                        <a href="./restaurants/new">
-                            <button type="button" class="btn btn-info  ml-2">Add Restaurant</button>
-                        </a>
                     </div>
                 </div>
             </form>
         </div>
     </div>
+                    <div class="dropdown ml-3">
+                <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown"
+                        aria-haspopup="true" aria-expanded="false">
+                    SORT BY{{#if name_en}}name_en{{/if}} {{#if location}}selected{{/if}}:
+                </button>
+                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                    <a class="dropdown-item" href="/asc">A -> Z</a>
+                    <a class="dropdown-item" href="/desc">Z -> A</a>
+                    <a class="dropdown-item" href="/location">地區</a>
+                    <a class="dropdown-item" href="/category">種類</a>
+                </div>
+            </div>
 </div>
+
+
 
 {{#if restaurants}}
     <!-- restaurant list -->
