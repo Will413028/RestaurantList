@@ -9,27 +9,29 @@ router.get('/new', (req, res) => {
 })
 
 router.post('/', (req, res) => {
-  const restaurant = new Restaurant({
-    name: req.body.name,
-    name_en: req.body.name_en,
-    category: req.body.category,
-    image: req.body.image || 'https://www.ristobartwentyfive.com/wp-content/uploads/2019/07/restaurant-food-salat-2.jpg',
-    location: req.body.location || null,
-    google_map: req.body.google_map,
-    rating: req.body.rating,
-    phone: req.body.phone,
-    description: req.body.description
+  const userId = req.user._id
+  const {name, name_en, category, image, location, phone, google_map, rating, description } = req.body //解構賦值
+  return Restaurant.create({
+    name,
+    name_en,
+    category,
+    image: image || "https://assets-lighthouse.s3.amazonaws.com/uploads/image/file/5635/01.jpg",
+    location,
+    phone,
+    google_map,
+    rating,
+    description,
+    userId
   })
-
-  restaurant.save()
-    .then(() => res.redirect('/'))
-    .catch(error => console.log(error))
+      .then(() => res.redirect('/'))
+      .catch(error => console.log(error))
 })
 
 // show details
 router.get('/:restaurantId', (req, res) => {
-  const id = req.params.restaurantId
-  Restaurant.findById(id)
+  const userId = req.user._id
+  const _id = req.params.restaurantId
+  Restaurant.findOne({ _id, userId})
     .lean()
     .then((restaurant) => res.render('detail', { restaurant }))
     .catch(error => console.log(error))
@@ -37,41 +39,44 @@ router.get('/:restaurantId', (req, res) => {
 
 // edit data
 router.get('/:restaurantId/edit', (req, res) => {
-  const id = req.params.restaurantId
-  Restaurant.findById(id)
+  const userId = req.user._id
+  const _id = req.params.restaurantId
+  Restaurant.findOne({ _id, userId})
     .lean()
     .then((restaurant) => res.render('edit', { restaurant }))
     .catch(error => console.log(error))
 })
 
-router.put('/:id', (req, res) => {
-  const id = req.params.id
-  const { name, name_en, category, image, location, phone, google_map, rating, description } = req.body
-
-  Restaurant.findById(id)
-    .then(restaurant => {
-      restaurant.name = req.body.name,
-      restaurant.name_en = req.body.name_en,
-      restaurant.category = req.body.category,
-      restaurant.image = req.body.image,
-      restaurant.location = req.body.location,
-      restaurant.phone = req.body.phone,
-      restaurant.google_map = req.body.google_map,
-      restaurant.rating = req.body.rating,
-      restaurant.description = req.body.description,
-      restaurant.save()
-    })
-    .then(() => res.redirect(`/restaurants/${id}`))
-    .catch(error => console.log(error))
+router.put('/:restaurantsId', (req, res) => {
+  const userId = req.user._id
+  const _id = req.params.restaurantsId
+  const { name, name_en, category, image, location, phone, google_map, rating, description } = req.body //解構賦值
+  return Restaurant.findOne({ _id, userId })
+      .then(restaurant => {
+        restaurant.name = name
+        restaurant.name_en = name_en
+        restaurant.category = category
+        restaurant.image = image
+        restaurant.location = location
+        restaurant.phone = phone
+        restaurant.google_map = google_map
+        restaurant.rating = rating
+        restaurant.description = description
+        return restaurant.save()
+      })
+      .then(() => res.redirect(`/restaurants/${_id}`))
+      .catch(error => console.log(error))
 })
 
+
 // delete a restaurant
-router.delete('/:id', (req, res) => {
-  const id = req.params.id
-  Restaurant.findById(id)
-    .then(restaurant => restaurant.remove())
-    .then(() => res.redirect('/'))
-    .catch(error => console.log(error))
+router.delete('/:restaurantsId', (req, res) => {
+  const _id = req.params.restaurantsId
+  const userId = req.user._id
+  return Restaurant.findOne({ _id, userId })
+      .then(restaurant => restaurant.remove())
+      .then(() => res.redirect('/'))
+      .catch(error => console.log(error))
 })
 
 module.exports = router
