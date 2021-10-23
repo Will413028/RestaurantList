@@ -1,12 +1,18 @@
 const express = require('express')
 const mongoose = require('mongoose')
 const exphbs = require('express-handlebars')
+const session = require('express-session')
 const Restaurant = require('./models/restaurant')
 const methodOverride = require('method-override')
 const app = express()
 const port = 3000
 const routes = require('./routes')
 app.use(methodOverride('_method'))
+app.use(session({
+  secret: 'Secret',
+  resave: false,
+  saveUninitialized: true
+}))
 
 mongoose.connect('mongodb://localhost/restaurant-list', { useNewUrlParser: true, useUnifiedTopology: true })
 
