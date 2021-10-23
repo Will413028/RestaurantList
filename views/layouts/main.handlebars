@@ -21,9 +21,12 @@
                      width="30" height="30" class="d-inline-block align-top" alt="Restaurant List">
                 Restaurant List
             </a>
-            <a href="./restaurants/new">
-                <button type="button" class="btn btn-info  ml-2">Add Restaurant</button>
-            </a>
+            {{#if isAuthenticated}}
+                <a href="/users/logout" class="btn btn-primary">Logout</a>
+            {{else}}
+                <a href="/users/login" class="btn btn-primary">Login</a>
+            {{/if}}
+
         </div>
     </nav>
     <div class="banner"></div>
