@@ -1,3 +1,6 @@
+if (process.env.NODE_ENV !== 'production') {
+  require('dotenv').config()
+}
 const express = require('express')
 const session = require('express-session')
 const exphbs = require('express-handlebars')
@@ -7,18 +10,19 @@ const routes = require('./routes')
 const usePassport = require('./config/passport')
 const Restaurant = require('./models/restaurant')
 const app = express()
-const port = 3000
+const port = process.env.PORT
+const MONGODB_URI = process.env.MONGODB_URI
 
 
 app.use(methodOverride('_method'))
 app.use(session({
-  secret: 'Secret',
+  secret: process.env.SESSION_SECRET,
   resave: false,
   saveUninitialized: true
 }))
 const mongoose = require('mongoose')
 
-mongoose.connect('mongodb://localhost/restaurant-list', { useNewUrlParser: true, useUnifiedTopology: true,useCreateIndex: true })
+mongoose.connect(MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: true,useCreateIndex: true })
 
 // set mongodb
 const db = mongoose.connection
